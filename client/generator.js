@@ -1,9 +1,9 @@
-import fs from "fs";
+import fs from 'fs';
 import terminalImage from 'terminal-image';
 
-import { emojiList } from "./emojiList.js";
-import { objectEmojis } from "./objectEmojiList.js";
-import { scrapeEmoji } from "./scrapeEmoji.js";
+import { emojiList } from './emojiList.js';
+import { objectEmojis } from './objectEmojiList.js';
+import { scrapeEmoji } from './scrapeEmoji.js';
 
 const getRandomEmoji = async () => {
   const randomEmoji = emojiList[Math.floor(Math.random() * emojiList.length)];

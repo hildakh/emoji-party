@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer from 'puppeteer';
 
 export const scrapeEmoji = async (url) => {
   const browser = await puppeteer.launch();
@@ -12,7 +12,7 @@ export const scrapeEmoji = async (url) => {
       // Wait for the page to load a little
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const emojiElement = document.querySelector("img");
+      const emojiElement = document.querySelector('img');
 
       return emojiElement ? emojiElement.src : null;
     });
@@ -20,11 +20,11 @@ export const scrapeEmoji = async (url) => {
     if(emojiImageSrc) {
       return emojiImageSrc;
     } else {
-      console.error("No emoji image found.");
+      console.error('No emoji image found.');
       return null;
     }
   } catch {
-    console.log("Error:", error);
+    console.log('Error:', error);
   } finally {
     await browser.close();
   }
