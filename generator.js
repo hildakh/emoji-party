@@ -1,4 +1,5 @@
 import fs from "fs";
+import terminalImage from 'terminal-image';
 
 import { emojiList } from "./emojiList.js";
 import { objectEmojis } from "./objectEmojiList.js";
@@ -15,6 +16,11 @@ const getRandomEmoji = async () => {
     // Download the image and save it to a file
     const response = await fetch(emojiImageSrc);
     const buffer = await response.arrayBuffer();
+    const imageBuffer = Buffer.from(buffer);
+
+    // Display the image in the terminal
+    console.log(await terminalImage.buffer(imageBuffer));
+
 
     fs.writeFileSync(`./output/${randomEmoji}_${randomObjectEmoji}.png`, Buffer.from(buffer));
     console.log(`Emoji image saved as ${randomEmoji}_${randomObjectEmoji}.png`);
