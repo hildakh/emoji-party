@@ -5,8 +5,8 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.21.1",
+    "@notionhq/client": "^2.2.15",
+    "dotenv": "^16.4.7",
     "puppeteer": "^23.6.1",
     "terminal-image": "^3.0.0"
   }
