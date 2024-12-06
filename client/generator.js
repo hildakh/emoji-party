@@ -1,30 +1,57 @@
-import fs from 'fs';
-import terminalImage from 'terminal-image';
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 
 import { emojiList } from './emojiList.js';
-import { objectEmojis } from './objectEmojiList.js';
-import { scrapeEmoji } from './scrapeEmoji.js';
+import { Client } from '@notionhq/client';
 
-const getRandomEmoji = async () => {
-  const randomEmoji = emojiList[Math.floor(Math.random() * emojiList.length)];
-  const randomObjectEmoji = objectEmojis[Math.floor(Math.random() * objectEmojis.length)];
-  const url = `https://emojik.vercel.app/s/${randomEmoji}_${randomObjectEmoji}?size=128`;
+const notion = new Client({ auth: process.env.NOTION_KEY })
 
-  const emojiImageSrc = await scrapeEmoji(url);
+export const createNotionPageWithEmoji = async (title, content) => {
+  try {
+    const randomEmoji1 = emojiList[Math.floor(Math.random() * emojiList.length)]
+    const randomEmoji2 = emojiList[Math.floor(Math.random() * emojiList.length)]
 
-  if (emojiImageSrc) {
-    // Download the image and save it to a file
-    const response = await fetch(emojiImageSrc);
-    const buffer = await response.arrayBuffer();
-    const imageBuffer = Buffer.from(buffer);
+    const response = await fetch(
+      `https://emojik.vercel.app/s/${encodeURIComponent(randomEmoji1)}_${encodeURIComponent(randomEmoji2)}?size=128`
+    )
+    const { url } = await response;
 
-    // Display the image in the terminal
-    console.log(await terminalImage.buffer(imageBuffer));
-
-
-    fs.writeFileSync(`./output/${randomEmoji}_${randomObjectEmoji}.png`, Buffer.from(buffer));
-    console.log(`Emoji image saved as ${randomEmoji}_${randomObjectEmoji}.png`);
+    // Create page with emoji as icon
+    return await notion.pages.create({
+      parent: { 
+        page_id: process.env.NOTION_PARENT_PAGE_ID,
+       },
+      icon: {
+        type: "external",
+        external: { url }
+      },
+      properties: {
+        title: { title: [{ text: { content: title } }] },
+      },
+      children: [
+        {
+          object: 'block',
+          type: 'paragraph',
+          paragraph: {
+            rich_text: [
+              {
+                type: 'text',
+                text: {
+                  content,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    })
+  } catch (err) {
+    console.error(err)
+    return null
   }
-};
+}
 
-getRandomEmoji();
+await createNotionPageWithEmoji(
+  'new Emoji page', 
+  'You made this page using the Notion API. Pretty cool, huh? We hope you enjoy building with us.'
+);
