@@ -1,31 +1,33 @@
+import fs from 'fs';
+import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
+import { emojiList } from './emojiList.js';
+import { generateRandomEmoji } from './generator.js';
 
-export const scrapeEmoji = async (url) => {
+export const scrapeEmoji = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
+  const randomEmoji1 = emojiList[Math.floor(Math.random() * emojiList.length)];
+  const randomEmoji2 = emojiList[Math.floor(Math.random() * emojiList.length)];
+
   try {
-    await page.goto(url);
+    const { url } = await generateRandomEmoji(randomEmoji1, randomEmoji2);
 
-    // Wait for the image to load and extract the 'src' attribute
-    const emojiImageSrc = await page.evaluate(async () => {
-      // Wait for the page to load a little
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 5000 });
 
-      const emojiElement = document.querySelector('img');
+    const response = await fetch(url);
+    const buffer = await response.buffer();
 
-      return emojiElement ? emojiElement.src : null;
-    });
+    fs.writeFileSync(`../output/${randomEmoji1}_${randomEmoji2}.png`, buffer);
 
-    if(emojiImageSrc) {
-      return emojiImageSrc;
-    } else {
-      console.error('No emoji image found.');
-      return null;
-    }
-  } catch {
-    console.log('Error:', error);
+    return url;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
   } finally {
     await browser.close();
   }
 };
+
+scrapeEmoji()
