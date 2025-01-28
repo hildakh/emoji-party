@@ -1,4 +1,4 @@
-import { emojiList } from './emojiList.js';
+import { emojiList } from './emoji-list.js';
 
 export const generateRandomEmoji = async (
   randomEmoji1 = emojiList[Math.floor(Math.random() * emojiList.length)],

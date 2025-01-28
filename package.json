@@ -4,10 +4,15 @@
   "main": "index.js",
   "type": "module",
   "license": "MIT",
+  "scripts": {
+    "vercel:dev": "vercel",
+    "vercel:deploy": "vercel deploy"
+  },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
     "dotenv": "^16.4.7",
     "puppeteer": "^23.6.1",
-    "terminal-image": "^3.0.0"
+    "terminal-image": "^3.0.0",
+    "vercel": "^39.3.0"
   }
 }

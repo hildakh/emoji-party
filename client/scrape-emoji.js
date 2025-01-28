@@ -1,7 +1,7 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
-import { emojiList } from './emojiList.js';
+import { emojiList } from './emoji-list.js';
 import { generateRandomEmoji } from './generator.js';
 
 export const scrapeEmoji = async () => {
