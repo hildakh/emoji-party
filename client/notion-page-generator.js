@@ -14,7 +14,7 @@ export const createNotionPageWithEmoji = async (
 
     return await notion.pages.create({
       parent: {
-        page_id: process.env.NOTION_PARENT_PAGE_ID,
+        database_id: process.env.NOTION_DATABASE_ID,
        },
       icon: {
         type: "external",
