@@ -3,7 +3,7 @@ dotenv.config({ path: '../.env' });
 import { Client } from '@notionhq/client';
 import { generateRandomEmoji } from './generator.js';
 
-const notion = new Client({ auth: process.env.NOTION_KEY })
+const notion = new Client({ auth: process.env.NOTION_KEY });
 
 export const updateNotionPageWithEmoji = async (pageId) => {
   try {
@@ -15,10 +15,10 @@ export const updateNotionPageWithEmoji = async (pageId) => {
         type: "external",
         external: { url }
       },
-    })
+    });
   } catch (err) {
-    console.error(err)
-    return null
+    console.error(err);
+    return null;
   }
 }
 

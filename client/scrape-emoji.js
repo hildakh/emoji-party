@@ -30,4 +30,4 @@ export const scrapeEmoji = async () => {
   }
 };
 
-scrapeEmoji()
+scrapeEmoji();

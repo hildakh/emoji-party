@@ -10,7 +10,7 @@ const { values } = parseArgs({
     title: { type: 'string', default: 'New page with Emoji' },
     content: { type: 'string', default: 'You made this page using the Notion API. Pretty cool, huh?' },
   }
-})
+});
 
 export const createNotionPageWithEmoji = async (
   title,
@@ -46,10 +46,10 @@ export const createNotionPageWithEmoji = async (
           },
         },
       ],
-    })
+    });
   } catch (err) {
-    console.error(err)
-    return null
+    console.error(err);
+    return null;
   }
 }
 
