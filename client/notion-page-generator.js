@@ -1,13 +1,20 @@
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
+import { parseArgs } from 'node:util';
 import { Client } from '@notionhq/client';
 import { generateRandomEmoji } from './generator.js';
 
-const notion = new Client({ auth: process.env.NOTION_KEY })
+const notion = new Client({ auth: process.env.NOTION_KEY });
+const { values } = parseArgs({
+  options: {
+    title: { type: 'string', default: 'New page with Emoji' },
+    content: { type: 'string', default: 'You made this page using the Notion API. Pretty cool, huh?' },
+  }
+})
 
 export const createNotionPageWithEmoji = async (
-  title = 'New page with Emoji',
-  content = 'You made this page using the Notion API. Pretty cool, huh?',
+  title,
+  content,
 ) => {
   try {
     const { url } = await generateRandomEmoji();
@@ -46,4 +53,4 @@ export const createNotionPageWithEmoji = async (
   }
 }
 
-await createNotionPageWithEmoji();
+await createNotionPageWithEmoji(values.title, values.content);
